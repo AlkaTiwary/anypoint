@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="3e52be7a-38b4-4757-aa89-96e3f36cb043" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="976118c9-1333-4701-bef5-691ae7e2f9b3" />
+	<flow name="sample4Flow" doc:id="40b6286b-006a-4c59-b2bf-7769b275aee7" >
+		<http:listener doc:name="Listener" doc:id="677c52de-2d94-4b6a-b70f-6228d00bef79" config-ref="HTTP_Listener_config" path="/try"/>
+		<set-variable value="#[attributes.queryParams.name]" doc:name="Set Variable" doc:id="1aec9b61-2205-4317-9f50-f1abbde8e6f2" variableName="name"/>
+		<set-variable value="#[attributes.method]" doc:name="Set Variable" doc:id="5926d88c-e145-4503-b677-f1f3ee8a520f" variableName="method"/>
+		<file:read doc:name="Read" doc:id="a0c5d8ae-a7f8-441f-aaed-64340dab074a" config-ref="File_Config" path="C:\Users\AlkaTiwary\AnypointStudio\studio-workspace\sample4\mule-artifact.json"/>
+		<set-payload value='#["hi " ++ vars.name as String ++ ".This method is "++ vars.method]' doc:name="Set Payload" doc:id="c151b379-2469-447c-a16a-97de40624a0c" />
+	</flow>
+	<flow name="sample4private" doc:id="73cf00a3-1db4-4c46-a6cd-8962756c6db7" >
+		<set-payload value="Hi u r in private flow" doc:name="Set Payload" doc:id="63b869ea-f9e6-40eb-844a-4a81cae587f6" />
+	</flow>
+	<sub-flow name="sample4SubFlow" doc:id="c4fa1f30-ea4c-4ade-89cb-cc08c7c21577" >
+		<set-payload value="Hi u r in subflow" doc:name="Set Payload" doc:id="eae969cb-350c-46e3-b2d2-9a2b986d69d3" />
+	</sub-flow>
+</mule>
