@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="3e52be7a-38b4-4757-aa89-96e3f36cb043" >
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
@@ -14,6 +15,15 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 		<set-variable value="#[attributes.queryParams.name]" doc:name="Set Variable" doc:id="1aec9b61-2205-4317-9f50-f1abbde8e6f2" variableName="name"/>
 		<set-variable value="#[attributes.method]" doc:name="Set Variable" doc:id="5926d88c-e145-4503-b677-f1f3ee8a520f" variableName="method"/>
 		<file:read doc:name="Read" doc:id="a0c5d8ae-a7f8-441f-aaed-64340dab074a" config-ref="File_Config" path="C:\Users\AlkaTiwary\AnypointStudio\studio-workspace\sample4\mule-artifact.json"/>
+		<ee:transform doc:name="Transform Message" doc:id="70b9036c-76d4-4358-b0ff-80a16597736e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 		<set-payload value='#["hi " ++ vars.name as String ++ ".This method is "++ vars.method]' doc:name="Set Payload" doc:id="c151b379-2469-447c-a16a-97de40624a0c" />
 	</flow>
 	<flow name="sample4private" doc:id="73cf00a3-1db4-4c46-a6cd-8962756c6db7" >
